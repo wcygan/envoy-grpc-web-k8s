@@ -1,0 +1,22 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/wcygan/envoy-grpc-web-k8s
+plugins:
+  - plugin: buf.build/grpc/go:v1.3.0
+    out: generated/go
+    opt:
+      - paths=source_relative
+  - plugin: buf.build/protocolbuffers/go:v1.34.2
+    out: generated/go
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/es:v1.10.0
+    out: frontend/src/generated
+    opt: target=js
+  - plugin: buf.build/bufbuild/es:v1.10.0
+    out: frontend/src/generated
+    opt: target=ts
+  - plugin: buf.build/bufbuild/connect-web:v0.8.6
+    out: frontend/src/generated
+    opt: target=ts

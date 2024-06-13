@@ -1,0 +1,1 @@
+This application demonstrates how to connect a web application with a gRPC server via grpc-web protocol while deploying both on k8s.
