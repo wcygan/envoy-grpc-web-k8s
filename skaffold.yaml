@@ -1,0 +1,23 @@
+apiVersion: skaffold/v4beta9
+kind: Config
+metadata:
+  name: backend
+manifests:
+  rawYaml:
+    - backend/k8s/deployment.yaml
+    - backend/k8s/service.yaml
+build:
+  local:
+    concurrency: 0
+  artifacts:
+    - image: backend
+      context: .
+      docker:
+        dockerfile: backend/Dockerfile
+deploy:
+  kubectl: {}
+portForward:
+  - resourceType: deployment
+    resourceName: backend
+    port: 50050
+    localPort: 50050
