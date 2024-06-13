@@ -1,23 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import pingClient from './clients';
 import './App.css';
 
 function App() {
+  const [successCount, setSuccessCount] = useState(0);
+  const [failureCount, setFailureCount] = useState(0);
+  const [log, setLog] = useState<string[]>([]);
+
+  const sendPing = async () => {
+    console.log("Sending ping...");
+    try {
+      await pingClient.ping({ message: "hello" });
+      setSuccessCount(successCount + 1);
+    } catch (error) {
+      setFailureCount(failureCount + 1);
+      setLog([...log, `Ping failed: ${error}`]);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Ping Service</h1>
+        <button onClick={sendPing}>Send Ping</button>
+        <div>
+          <p>Successful Pings: {successCount}</p>
+          <p>Unsuccessful Pings: {failureCount}</p>
+        </div>
+        <div className="log-box">
+          <h4>Error Log</h4>
+          {log.map((entry, index) => (
+            <p key={index}>{entry}</p>
+          ))}
+        </div>
       </header>
     </div>
   );
