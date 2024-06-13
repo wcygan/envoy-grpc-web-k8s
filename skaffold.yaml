@@ -21,3 +21,31 @@ portForward:
     resourceName: backend
     port: 50050
     localPort: 50050
+---
+apiVersion: skaffold/v4beta9
+kind: Config
+metadata:
+  name: frontend
+requires:
+  - configs:
+      - backend
+manifests:
+  rawYaml:
+    - frontend/k8s/deployment.yaml
+    - frontend/k8s/service.yaml
+    - frontend/k8s/ingress.yaml
+build:
+  local:
+    concurrency: 0
+  artifacts:
+    - image: frontend
+      context: .
+      docker:
+        dockerfile: frontend/Dockerfile
+deploy:
+  kubectl: {}
+portForward:
+  - resourceType: service
+    resourceName: frontend
+    port: 80
+    localPort: 8080
