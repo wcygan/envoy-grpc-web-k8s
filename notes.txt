@@ -1,0 +1,9 @@
+kubectl exec -it frontend-6b859b4dc-6fvbb -- /bin/sh
+
+/ # nc -zv envoy 8080
+envoy (10.98.67.69:8080) open
+
+/ # nc -zv backend 50050
+backend (10.105.119.95:50050) open
+
+https://stackoverflow.com/questions/70431088/protocol-error-when-trying-to-connect-envoy-to-grpc-service-using-grpc-web fixed it

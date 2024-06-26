@@ -31,6 +31,8 @@ requires:
       - backend
 manifests:
   rawYaml:
+    - envoy/k8s/deployment.yaml
+    - envoy/k8s/service.yaml
     - frontend/k8s/deployment.yaml
     - frontend/k8s/service.yaml
     - frontend/k8s/ingress.yaml
@@ -48,4 +50,8 @@ portForward:
   - resourceType: service
     resourceName: frontend
     port: 80
+    localPort: 80
+  - resourceType: service
+    resourceName: envoy
+    port: 8080
     localPort: 8080
