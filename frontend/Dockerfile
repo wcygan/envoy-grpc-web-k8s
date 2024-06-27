@@ -7,13 +7,11 @@ RUN buf generate proto
 
 # Second stage: Build the React application
 FROM node:16 as build
-WORKDIR /app
-COPY frontend/package.json ./package.json
-COPY frontend/package-lock.json ./package-lock.json
-RUN npm install
-COPY frontend ./frontend
-COPY --from=bufbuild /app/frontend/src/generated /app/src/generated
 WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm install
+COPY frontend ./
+COPY --from=bufbuild /app/frontend/src/generated ./src/generated
 RUN npm run build
 
 # Final stage: Create the runtime image
